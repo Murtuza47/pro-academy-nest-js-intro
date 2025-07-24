@@ -1,12 +1,12 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { User, UserService } from '../services/user.service';
 
 @Controller('users')
 export class UserController {
   @Get()
-  getUsers(): User[] {
+  getUsers(@Query() query: { [key: string]: string }): User[] {
     const userService = new UserService();
-    return userService.getAllUsers();
+    return userService.getAllUsers(query);
   }
 
   @Get(':id')

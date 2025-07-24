@@ -45,8 +45,22 @@ export class UserService {
     },
   ];
 
-  getAllUsers() {
-    return this.users;
+  getAllUsers(query?:{ [key: string]: string}): User[] {
+    let users = this.users;
+
+    if(query?.name) {
+      users = users.filter(user => user.name.toLowerCase().includes(query.name.toLowerCase()));
+    }
+
+    if(query?.isMarried) {
+      users = users.filter(user => user.isMarried === Boolean(query.isMarried === 'true'));
+    }
+
+    if(query?.gender) {
+      users = users.filter(user => user.gender === query.gender);
+    }
+
+    return users;
   }
 
   getUserById(id: number) {

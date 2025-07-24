@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { User, UserService } from '../services/user.service';
 
 @Controller('users')
@@ -10,8 +10,8 @@ export class UserController {
   }
 
   @Get(':id')
-  getUserById(@Param() param: { id: string }): User | undefined {
+  getUserById(@Param('id', ParseIntPipe) id: number): User | undefined {
     const userService = new UserService();
-    return userService.getUserById(+param.id);
+    return userService.getUserById(id);
   }
 }

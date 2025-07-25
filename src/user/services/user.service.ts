@@ -1,3 +1,4 @@
+import { CreateUserDto } from "../dtos/create-user.dto";
 import { User } from "../dtos/user.dto";
 
 export class UserService {
@@ -61,7 +62,7 @@ export class UserService {
     return this.users.find((user) => user.id === id);
   }
 
-  createUser(user: User) {
+  createUser(user: CreateUserDto) {
     const userLenght = this.users.length;
     user.id = userLenght + 1;
     this.users.push(user);

@@ -1,6 +1,8 @@
 import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateUserDto {
+  id: number;
+  
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -9,8 +11,7 @@ export class CreateUserDto {
   email: string
 
   @IsString()
-  @IsOptional()
-  gender?: string
+  gender: string
 
   @IsBoolean()
   isMarried: boolean;

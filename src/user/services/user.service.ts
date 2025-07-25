@@ -1,10 +1,4 @@
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  isMarried: boolean;
-}
+import { User } from "../dtos/user.dto";
 
 export class UserService {
   users: User[] = [

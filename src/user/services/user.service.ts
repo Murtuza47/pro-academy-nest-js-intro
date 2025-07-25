@@ -62,6 +62,8 @@ export class UserService {
   }
 
   createUser(user: User) {
+    const userLenght = this.users.length;
+    user.id = userLenght + 1;
     this.users.push(user);
   }
 }

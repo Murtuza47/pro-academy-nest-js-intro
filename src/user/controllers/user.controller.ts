@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../dtos/user.dto';
 
@@ -14,5 +14,12 @@ export class UserController {
   getUserById(@Param('id', ParseIntPipe) id: number): User | undefined {
     const userService = new UserService();
     return userService.getUserById(id);
+  }
+
+  @Post()
+  createUser(@Body() user: any) {
+    const userService = new UserService();
+    userService.createUser(user);
+    return 'User is created successfully';
   }
 }

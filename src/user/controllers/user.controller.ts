@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, ValidationPipe } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { User } from '../dtos/user.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -23,5 +24,14 @@ export class UserController {
     // userService.createUser(createUser);
     console.log('User created:', createUser);
     return 'User is created successfully';
+  }
+
+  @Patch(':id')
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUser: UpdateUserDto
+  ) {
+    console.log('Updating user with ID:', id);
+    console.log('User updated:', updateUser);
   }
 }

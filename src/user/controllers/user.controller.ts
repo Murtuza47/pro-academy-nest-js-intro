@@ -20,7 +20,8 @@ export class UserController {
   @Post()
   createUser(@Body() createUser: CreateUserDto) {
     const userService = new UserService();
-    userService.createUser(createUser);
+    // userService.createUser(createUser);
+    console.log('User created:', createUser);
     return 'User is created successfully';
   }
 }

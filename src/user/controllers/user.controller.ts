@@ -18,7 +18,7 @@ import { UserService } from '../services/user.service';
 export class UserController {
   constructor(private userService: UserService) {}
   @Get()
-  getUsers(@Query() query: { [key: string]: string }): User[] {
+  getUsers(@Query() query: { [key: string]: string }): User[] | string {
     return this.userService.getAllUsers(query);
   }
 

@@ -22,4 +22,8 @@ export class CreateUserDto {
 
   @IsBoolean()
   isMarried: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }

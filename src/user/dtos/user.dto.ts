@@ -4,4 +4,5 @@ export class User {
   email: string;
   gender: string;
   isMarried: boolean;
+  password: string;
 }

@@ -1,12 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
+import { AuthService } from '../../auth/services/auth.service';
 import { TweetService } from '../../tweet/services/tweet.service';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { User } from '../dtos/user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly tweetService: TweetService) {}
+  constructor(
+    private readonly tweetService: TweetService,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+  ) {}
+
   users: User[] = [
     {
       id: 1,
@@ -14,6 +20,7 @@ export class UserService {
       email: 'john@example',
       gender: 'male',
       isMarried: false,
+      password: 'password123',
     },
     {
       id: 2,
@@ -21,6 +28,7 @@ export class UserService {
       email: 'jane@example',
       gender: 'female',
       isMarried: true,
+      password: 'password123',
     },
     {
       id: 3,
@@ -28,6 +36,7 @@ export class UserService {
       email: 'alice@example',
       gender: 'female',
       isMarried: false,
+      password: 'password123',
     },
     {
       id: 4,
@@ -35,6 +44,7 @@ export class UserService {
       email: 'bob@example',
       gender: 'male',
       isMarried: true,
+      password: 'password123',
     },
     {
       id: 5,
@@ -42,11 +52,16 @@ export class UserService {
       email: 'charlie@example',
       gender: 'male',
       isMarried: false,
+      password: 'password123',
     },
   ];
 
-  getAllUsers(query?: { [key: string]: string }): User[] {
+  getAllUsers(query?: { [key: string]: string }): User[] | string {
     let users = this.users;
+
+    if (!this.authService.isAuthenticated) {
+      return 'User is not authenticated';
+    }
 
     if (query?.name) {
       users = users.filter((user) =>

@@ -1,6 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { CreateUserDto } from "../dtos/create-user.dto";
-import { User } from "../dtos/user.dto";
+import { Injectable } from '@nestjs/common';
+
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { User } from '../dtos/user.dto';
 
 @Injectable()
 export class UserService {
@@ -42,19 +43,23 @@ export class UserService {
     },
   ];
 
-  getAllUsers(query?:{ [key: string]: string}): User[] {
+  getAllUsers(query?: { [key: string]: string }): User[] {
     let users = this.users;
 
-    if(query?.name) {
-      users = users.filter(user => user.name.toLowerCase().includes(query.name.toLowerCase()));
+    if (query?.name) {
+      users = users.filter((user) =>
+        user.name.toLowerCase().includes(query.name.toLowerCase()),
+      );
     }
 
-    if(query?.isMarried) {
-      users = users.filter(user => user.isMarried === Boolean(query.isMarried === 'true'));
+    if (query?.isMarried) {
+      users = users.filter(
+        (user) => user.isMarried === Boolean(query.isMarried === 'true'),
+      );
     }
 
-    if(query?.gender) {
-      users = users.filter(user => user.gender === query.gender);
+    if (query?.gender) {
+      users = users.filter((user) => user.gender === query.gender);
     }
 
     return users;

@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+import { TweetService } from '../../tweet/services/tweet.service';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { User } from '../dtos/user.dto';
 
 @Injectable()
 export class UserService {
+  constructor(private readonly tweetService: TweetService) {}
   users: User[] = [
     {
       id: 1,
@@ -73,5 +75,9 @@ export class UserService {
     const userLenght = this.users.length;
     user.id = userLenght + 1;
     this.users.push(user);
+  }
+
+  getUserTweets(userId: number) {
+    return this.tweetService.getAllTweetsByUserId(userId);
   }
 }

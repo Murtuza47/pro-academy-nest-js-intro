@@ -42,4 +42,9 @@ export class UserController {
     console.log('Updating user with ID:', id);
     console.log('User updated:', updateUser);
   }
+
+  @Get(':id/tweets')
+  getUserTweets(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.getUserTweets(id);
+  }
 }

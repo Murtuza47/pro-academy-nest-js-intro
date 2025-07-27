@@ -2,15 +2,11 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
-  IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
 
 export class CreateUserDto {
-  @IsOptional()
-  id: number;
-
   @IsString()
   @IsNotEmpty()
   @MinLength(2)

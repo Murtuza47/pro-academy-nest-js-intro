@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { TweetModule } from './tweet/tweet.module';
+import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -15,7 +16,7 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
-        entities: [],
+        entities: [User],
         synchronize: true,
         host: 'localhost',
         port: 5432,

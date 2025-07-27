@@ -8,7 +8,7 @@ export class UserController {
   constructor(private userService: UserService) {}
   @Post()
   createUser(@Body() createUser: CreateUserDto) {
-    this.userService.createUser(createUser);
+    void this.userService.createUser(createUser);
     return 'User is created successfully';
   }
 }

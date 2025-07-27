@@ -1,6 +1,6 @@
 import {
-  IsBoolean,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -12,16 +12,18 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  name: string;
-
-  @IsEmail()
-  email: string;
+  first_name: string;
 
   @IsString()
-  gender: string;
+  @IsNotEmpty()
+  last_name: string;
 
-  @IsBoolean()
-  isMarried: boolean;
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsEnum(['male', 'female'])
+  gender: string;
 
   @IsString()
   @IsNotEmpty()

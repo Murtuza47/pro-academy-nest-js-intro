@@ -14,6 +14,10 @@ export class UserService {
     private readonly profileRepository: Repository<Profile>,
   ) {}
 
+  async getUsers() {
+    return this.userRepository.find();
+  }
+
   async createUser(userDto: CreateUserDto) {
     // validate if user already exists with email
     const existingUser = await this.userRepository.findOne({

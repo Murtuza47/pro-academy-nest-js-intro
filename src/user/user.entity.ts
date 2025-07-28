@@ -27,7 +27,6 @@ export class User {
 
   @OneToOne(() => Profile, (profile) => profile.user, {
     cascade: ['insert'],
-    eager: true,
   })
   @JoinColumn({ name: 'profile_id' })
   profile?: Profile;

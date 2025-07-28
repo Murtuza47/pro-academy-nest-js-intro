@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { TweetModule } from './tweet/tweet.module';
 import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
         database: 'pro-academy-nestjs-intro',
       }),
     }),
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

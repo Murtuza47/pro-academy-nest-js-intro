@@ -1,8 +1,9 @@
 export class User {
   id: number;
-  name: string;
+  username: string;
   email: string;
-  gender: string;
-  isMarried: boolean;
   password: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
 }

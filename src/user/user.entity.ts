@@ -27,7 +27,7 @@ export class User {
 
   @OneToOne(() => Profile)
   @JoinColumn({ name: 'profile_id' })
-  profile: Profile;
+  profile?: Profile;
 
   @CreateDateColumn()
   created_at: Date;

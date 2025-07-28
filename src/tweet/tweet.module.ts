@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { User } from '../user/user.entity';
 import { TweetController } from './controllers/tweet.controller';
 import { TweetService } from './services/tweet.service';
 import { Tweet } from './tweet.entity';
@@ -9,6 +10,6 @@ import { Tweet } from './tweet.entity';
   providers: [TweetService],
   controllers: [TweetController],
   exports: [TweetService],
-  imports: [TypeOrmModule.forFeature([Tweet])],
+  imports: [TypeOrmModule.forFeature([Tweet, User])],
 })
 export class TweetModule {}

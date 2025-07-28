@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { User } from '../user/user.entity';
 
 @Entity('profiles')
 export class Profile {
@@ -22,4 +24,7 @@ export class Profile {
 
   @Column({ type: 'text', nullable: true })
   profile_image?: string;
+
+  @OneToOne(() => User, (user) => user.profile)
+  user: User;
 }

@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { TweetModule } from './tweet/tweet.module';
@@ -28,7 +26,5 @@ import { UserModule } from './user/user.module';
     }),
     ProfileModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

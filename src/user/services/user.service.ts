@@ -33,4 +33,16 @@ export class UserService {
     const user = this.userRepository.create(userDto);
     return this.userRepository.save(user);
   }
+
+  async deleteUser(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+
+    await this.userRepository.delete(id);
+
+    if (user?.profile?.id) {
+      await this.profileRepository.delete(user?.profile?.id);
+    }
+
+    return { message: 'User deleted successfully' };
+  }
 }

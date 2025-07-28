@@ -15,11 +15,7 @@ export class UserService {
   ) {}
 
   async getUsers() {
-    return this.userRepository.find({
-      relations: {
-        profile: true,
-      },
-    });
+    return this.userRepository.find();
   }
 
   async createUser(userDto: CreateUserDto) {

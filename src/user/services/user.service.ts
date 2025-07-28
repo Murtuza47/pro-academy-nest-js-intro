@@ -26,13 +26,7 @@ export class UserService {
 
     userDto.profile = userDto.profile || {};
 
-    // create a new user profile
-    let profile = this.profileRepository.create(userDto.profile);
-    profile = await this.profileRepository.save(profile);
-
     const user = this.userRepository.create(userDto);
-    user.profile = profile;
-
     return this.userRepository.save(user);
   }
 }

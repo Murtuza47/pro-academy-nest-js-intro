@@ -25,7 +25,9 @@ export class User {
   @Column({ type: 'varchar', nullable: false })
   password: string;
 
-  @OneToOne(() => Profile)
+  @OneToOne(() => Profile, {
+    cascade: ['insert'],
+  })
   @JoinColumn({ name: 'profile_id' })
   profile?: Profile;
 

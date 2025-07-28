@@ -28,7 +28,6 @@ export class User {
   @OneToOne(() => Profile, (profile) => profile.user, {
     cascade: ['insert'],
   })
-  @JoinColumn({ name: 'profile_id' })
   profile?: Profile;
 
   @CreateDateColumn()

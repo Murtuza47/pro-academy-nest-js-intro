@@ -19,4 +19,7 @@ export class Profile {
 
   @Column({ type: 'text', nullable: true })
   bio?: string;
+
+  @Column({ type: 'text', nullable: true })
+  profile_image?: string;
 }

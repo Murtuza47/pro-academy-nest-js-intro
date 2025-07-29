@@ -54,4 +54,10 @@ export class TweetService {
     }
     return 'Tweet not found';
   }
+
+  async deleteTweet(id: number): Promise<string> {
+    await this.tweetRepository.delete(id);
+
+    return 'Tweet deleted successfully';
+  }
 }

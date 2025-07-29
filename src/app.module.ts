@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
+import { HashtagModule } from './hashtag/hashtag.module';
 import { ProfileModule } from './profile/profile.module';
 import { TweetModule } from './tweet/tweet.module';
 import { UserModule } from './user/user.module';
@@ -24,6 +25,7 @@ import { UserModule } from './user/user.module';
       }),
     }),
     ProfileModule,
+    HashtagModule,
   ],
 })
 export class AppModule {}

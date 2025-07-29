@@ -8,6 +8,7 @@ import { ProfileModule } from './profile/profile.module';
 import { TweetModule } from './tweet/tweet.module';
 import { UserModule } from './user/user.module';
 
+const ENV = process.env.NODE_ENV;
 @Module({
   imports: [
     UserModule,
@@ -17,6 +18,7 @@ import { UserModule } from './user/user.module';
     HashtagModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: !ENV ? '.env' : `.env.${ENV.trim()}.local`,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

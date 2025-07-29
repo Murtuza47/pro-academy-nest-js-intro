@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
@@ -21,4 +22,7 @@ export class Hashtag {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 }

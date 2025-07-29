@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
@@ -13,23 +13,25 @@ import { UserModule } from './user/user.module';
     UserModule,
     TweetModule,
     AuthModule,
+    ProfileModule,
+    HashtagModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        type: 'postgres',
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: configService.get<'postgres'>('DB_TYPE'),
         autoLoadEntities: true,
         synchronize: true,
-        host: 'localhost',
-        port: 5432,
-        username: 'postgres',
-        password: 'postgresql',
-        database: 'pro-academy-nestjs-intro',
+        host: configService.get<string>('DB_HOST'),
+        port: Number(configService.get<number>('DB_PORT')),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_NAME'),
       }),
     }),
-    ProfileModule,
-    HashtagModule,
   ],
 })
 export class AppModule {}

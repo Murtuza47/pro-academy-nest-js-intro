@@ -23,4 +23,10 @@ export class HashtagService {
 
     return 'Hashtag deleted successfully';
   }
+
+  async softDeleteHashtag(id: number): Promise<string> {
+    await this.hashtagRepository.softDelete(id);
+
+    return 'Hashtag soft deleted successfully';
+  }
 }

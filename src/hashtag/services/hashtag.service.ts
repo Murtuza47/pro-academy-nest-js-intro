@@ -17,4 +17,10 @@ export class HashtagService {
 
     return await this.hashtagRepository.save(hashtag);
   }
+
+  async deleteHashtag(id: number): Promise<string> {
+    await this.hashtagRepository.delete(id);
+
+    return 'Hashtag deleted successfully';
+  }
 }

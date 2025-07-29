@@ -2,8 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { Tweet } from '../tweet/tweet.entity';
 
 @Entity('hashtags')
 export class Hashtag {
@@ -12,6 +15,9 @@ export class Hashtag {
 
   @Column({ type: 'varchar', unique: true })
   name: string;
+
+  @ManyToMany(() => Tweet, (tweet) => tweet.hashtags)
+  tweets?: Tweet[];
 
   @CreateDateColumn()
   created_at: Date;

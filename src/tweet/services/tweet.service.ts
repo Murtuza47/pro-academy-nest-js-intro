@@ -5,6 +5,7 @@ import { In, Repository } from 'typeorm';
 import { Hashtag } from '../../hashtag/hashtag.entity';
 import { User } from '../../user/user.entity';
 import { CreateTweetDto } from '../dtos/create-tweet.dto';
+import { UpdateTweetDto } from '../dtos/update-tweet.dto';
 import { Tweet } from '../tweet.entity';
 
 @Injectable()
@@ -34,5 +35,23 @@ export class TweetService {
       hashtags: hashtags,
     });
     return await this.tweetRepository.save(tweet);
+  }
+
+  async updateTweet(updateTweetDto: UpdateTweetDto): Promise<Tweet | string> {
+    const hashtags = await this.hashtagRepository.find({
+      where: { id: In(updateTweetDto.hashtag_ids || []) },
+    });
+
+    const tweet = await this.tweetRepository.findOneBy({
+      id: updateTweetDto.id,
+    });
+
+    if (tweet) {
+      tweet.content = updateTweetDto.content ?? tweet?.content;
+      tweet.image = updateTweetDto.image ?? tweet?.image;
+      tweet.hashtags = hashtags;
+      return await this.tweetRepository.save(tweet);
+    }
+    return 'Tweet not found';
   }
 }

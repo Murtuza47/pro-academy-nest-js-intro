@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
 import { Hashtag } from '../../hashtag/hashtag.entity';
 import { User } from '../../user/user.entity';
+import { tweetConfig } from '../config/tweet.config';
 import { CreateTweetDto } from '../dtos/create-tweet.dto';
 import { UpdateTweetDto } from '../dtos/update-tweet.dto';
 import { Tweet } from '../tweet.entity';
@@ -19,7 +21,15 @@ export class TweetService {
 
     @InjectRepository(Hashtag)
     private readonly hashtagRepository: Repository<Hashtag>,
+
+    @Inject(tweetConfig.KEY)
+    private readonly tweetConfiguration: ConfigType<typeof tweetConfig>,
   ) {}
+
+  async getTweets() {
+    console.log(this.tweetConfiguration.tweetApiKey);
+    return this.tweetRepository.find({ relations: ['user', 'hashtags'] });
+  }
 
   async createTweet(createTweetDto: CreateTweetDto): Promise<Tweet> {
     const user = await this.userRepository.findOneBy({

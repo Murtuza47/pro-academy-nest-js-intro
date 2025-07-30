@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseIntPipe,
   Patch,
@@ -15,6 +16,11 @@ import { TweetService } from '../services/tweet.service';
 @Controller('tweets')
 export class TweetController {
   constructor(private readonly tweetService: TweetService) {}
+
+  @Get()
+  getTweets() {
+    return this.tweetService.getTweets();
+  }
 
   @Post()
   createTweet(@Body() createTweetDto: CreateTweetDto) {

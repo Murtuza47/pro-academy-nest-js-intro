@@ -3,6 +3,7 @@ import { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
+import { PaginationDto } from '../../common/pagination/pagination.dto';
 import { Hashtag } from '../../hashtag/hashtag.entity';
 import { User } from '../../user/user.entity';
 import { tweetConfig } from '../config/tweet.config';
@@ -26,9 +27,13 @@ export class TweetService {
     private readonly tweetConfiguration: ConfigType<typeof tweetConfig>,
   ) {}
 
-  async getTweets() {
+  async getTweets(paginationDto: PaginationDto) {
     console.log(this.tweetConfiguration.tweetApiKey);
-    return this.tweetRepository.find({ relations: ['user', 'hashtags'] });
+    return this.tweetRepository.find({
+      relations: ['user', 'hashtags'],
+      skip: (paginationDto.page - 1) * paginationDto?.limit,
+      take: paginationDto.limit,
+    });
   }
 
   async createTweet(createTweetDto: CreateTweetDto): Promise<Tweet> {

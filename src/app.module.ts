@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
+import { appconfig } from './configs/app.config';
 import { HashtagModule } from './hashtag/hashtag.module';
 import { ProfileModule } from './profile/profile.module';
 import { TweetModule } from './tweet/tweet.module';
@@ -19,6 +20,7 @@ const ENV = process.env.NODE_ENV;
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: !ENV ? '.env' : `.env.${ENV.trim()}.local`,
+      load: [appconfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -27,11 +29,11 @@ const ENV = process.env.NODE_ENV;
         type: configService.get<'postgres'>('DB_TYPE'),
         autoLoadEntities: true,
         synchronize: true,
-        host: configService.get<string>('DB_HOST'),
-        port: Number(configService.get<number>('DB_PORT')),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
+        host: configService.get<string>('database.host'),
+        port: Number(configService.get<number>('database.port')),
+        username: configService.get<string>('database.username'),
+        password: configService.get<string>('database.password'),
+        database: configService.get<string>('database.name'),
       }),
     }),
   ],

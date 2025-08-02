@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { PaginationModule } from '../common/pagination/pagination.module';
 import { Hashtag } from '../hashtag/hashtag.entity';
 import { User } from '../user/user.entity';
 import { tweetConfig } from './config/tweet.config';
@@ -14,6 +15,7 @@ import { Tweet } from './tweet.entity';
   controllers: [TweetController],
   exports: [TweetService],
   imports: [
+    PaginationModule,
     ConfigModule.forFeature(tweetConfig),
     TypeOrmModule.forFeature([Tweet, User, Hashtag]),
   ],

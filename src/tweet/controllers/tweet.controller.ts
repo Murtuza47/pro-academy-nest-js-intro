@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { PaginationDto } from '../../common/pagination/pagination.dto';
+import { PaginationDto } from '../../common/pagination/dtos/pagination.dto';
 import { CreateTweetDto } from '../dtos/create-tweet.dto';
 import { UpdateTweetDto } from '../dtos/update-tweet.dto';
 import { TweetService } from '../services/tweet.service';

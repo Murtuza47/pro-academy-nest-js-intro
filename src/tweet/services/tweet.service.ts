@@ -1,9 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginatedPayload } from 'src/common/pagination/interface/paginated-payload.interface';
 import { In, Repository } from 'typeorm';
 
-import { PaginationDto } from '../../common/pagination/pagination.dto';
+import { PaginationDto } from '../../common/pagination/dtos/pagination.dto';
+import { PaginationProvider } from '../../common/pagination/provider/pagination';
 import { Hashtag } from '../../hashtag/hashtag.entity';
 import { User } from '../../user/user.entity';
 import { tweetConfig } from '../config/tweet.config';
@@ -14,6 +16,7 @@ import { Tweet } from '../tweet.entity';
 @Injectable()
 export class TweetService {
   constructor(
+    private readonly paginationProvider: PaginationProvider,
     @InjectRepository(Tweet)
     private readonly tweetRepository: Repository<Tweet>,
 
@@ -27,12 +30,18 @@ export class TweetService {
     private readonly tweetConfiguration: ConfigType<typeof tweetConfig>,
   ) {}
 
-  async getTweets(paginationDto: PaginationDto) {
+  async getTweets(
+    paginationDto: PaginationDto,
+  ): Promise<IPaginatedPayload<Tweet>> {
     console.log(this.tweetConfiguration.tweetApiKey);
-    return this.tweetRepository.find({
-      relations: ['user', 'hashtags'],
-      skip: (paginationDto.page - 1) * paginationDto?.limit,
-      take: paginationDto.limit,
+
+    return this.paginationProvider.paginatedQuery<Tweet>({
+      paginationDto,
+      repository: this.tweetRepository,
+      relations: {
+        user: true,
+        hashtags: true,
+      },
     });
   }
 

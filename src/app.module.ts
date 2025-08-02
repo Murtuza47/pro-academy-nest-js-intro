@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
+import { PaginationModule } from './common/pagination/pagination.module';
 import { appconfig } from './configs/app.config';
 import { databaseConfig } from './configs/database.config';
 import { envValidationSchema } from './configs/validations/env.validation';
@@ -39,6 +40,7 @@ const ENV = process.env.NODE_ENV;
         database: configService.get<string>('database.name'),
       }),
     }),
+    PaginationModule,
   ],
 })
 export class AppModule {}

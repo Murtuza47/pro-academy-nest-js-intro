@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
+import { UserService } from '../../user/services/user.service';
+import { SignUpDto } from '../dtos/sign-up.dto';
+
 @Injectable()
 export class AuthService {
-  constructor() {}
+  constructor(private readonly userService: UserService) {}
 
-  isAuthenticated: boolean = false;
+  async signup(signUpDto: SignUpDto) {
+    return await this.userService.createUser(signUpDto);
+  }
+
   login() {}
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -46,5 +46,15 @@ export class UserService {
     await this.userRepository.delete(id);
 
     return { message: 'User deleted successfully' };
+  }
+
+  async findUserByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+
+    if (!user) {
+      throw new BadRequestException('User with this email does not exist');
+    }
+
+    return user;
   }
 }

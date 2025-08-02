@@ -1,8 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { HashingProvider } from '../../auth/providers/hashing-provider/hashing-provider';
 import { Profile } from '../../profile/profile.entity';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { User } from '../user.entity';
@@ -14,6 +20,8 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
+    @Inject(forwardRef(() => HashingProvider))
+    private readonly hashingProvider: HashingProvider,
   ) {}
 
   async getUsers() {
@@ -38,7 +46,12 @@ export class UserService {
 
     userDto.profile = userDto.profile || {};
 
-    const user = this.userRepository.create(userDto);
+    const newUserPaylaod = {
+      ...userDto,
+      password: await this.hashingProvider.hashPassword(userDto.password),
+    };
+    const user = this.userRepository.create(newUserPaylaod);
+
     return this.userRepository.save(user);
   }
 
@@ -51,7 +64,7 @@ export class UserService {
   async findUserByEmail(email: string) {
     const user = await this.userRepository.findOneBy({ email });
 
-    if (!user) {
+    if (user) {
       throw new BadRequestException('User with this email does not exist');
     }
 

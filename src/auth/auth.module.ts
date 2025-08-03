@@ -1,5 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
 import { UserModule } from '../user/user.module';
@@ -20,17 +20,7 @@ import { AuthService } from './services/auth.service';
   controllers: [AuthController],
   exports: [AuthService, HashingProvider],
   imports: [
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('auth.secret'),
-        signOptions: {
-          expiresIn: configService.get<string>('auth.expiresIn'),
-          audience: configService.get<string>('auth.audience'),
-          issuer: configService.get<string>('auth.issuer'),
-        },
-      }),
-    }),
+    JwtModule.registerAsync(AuthConfig.asProvider()),
     ConfigModule.forFeature(AuthConfig),
     forwardRef(() => UserModule),
   ],

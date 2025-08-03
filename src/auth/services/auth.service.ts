@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from '../../user/services/user.service';
 import { AuthConfig } from '../config/auth.config';
@@ -20,6 +21,7 @@ export class AuthService {
     private readonly hashingProvider: HashingProvider,
     @Inject(AuthConfig.KEY)
     private readonly authConfig: ConfigType<typeof AuthConfig>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async signup(signUpDto: SignUpDto) {
@@ -27,7 +29,6 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    console.log(this.authConfig);
     const user = await this.userService.findUserByEmail(loginDto.email);
     const hashedPassword = user.password;
 
@@ -40,8 +41,21 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    const token = await this.jwtService.signAsync(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      {
+        secret: this.authConfig.secret,
+        expiresIn: this.authConfig.expiresIn,
+        audience: this.authConfig.audience,
+        issuer: this.authConfig.issuer,
+      },
+    );
+
     return {
-      data: user,
+      token,
       success: true,
       message: 'User logged in successfully',
     };

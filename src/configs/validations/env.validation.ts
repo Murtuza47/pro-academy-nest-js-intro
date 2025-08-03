@@ -11,5 +11,8 @@ export const envValidationSchema = Joi.object({
   DB_USERNAME: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
   DB_NAME: Joi.string().required(),
-  TWEET_API_KEY: Joi.string().required(),
+  JWT_SECRET_TOKEN: Joi.string().required(),
+  JWT_EXPIRES_IN: Joi.string().required(),
+  JWT_AUDIENCE: Joi.string().required(),
+  JWT_ISSUER: Joi.string().required(),
 });
